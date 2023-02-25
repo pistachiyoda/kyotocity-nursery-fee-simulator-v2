@@ -17,6 +17,29 @@ export class CalculatorModel {
     this.#incomeDeductionCalculatorModel = new IncomeDeductionCalculatorModel();
   }
 
+  // 対象所得の計算（給与所得 - 給与所得控除）
+  truncateLessThan1000 = (num: number) => {
+    return Math.floor(num / 1000) * 1000;
+  };
+
+  calcIncome(employmentIncome: number): number {
+    if (employmentIncome < 551000) return 0;
+    if (employmentIncome < 1619000) return employmentIncome - 550000;
+    if (employmentIncome < 1620000) return 1069000;
+    if (employmentIncome < 1622000) return 1070000;
+    if (employmentIncome < 1624000) return 1072000;
+    if (employmentIncome < 1628000) return 1074000;
+    if (employmentIncome < 1800000)
+      return this.truncateLessThan1000(employmentIncome / 4) * 2.4 + 100000;
+    if (employmentIncome < 3600000)
+      return this.truncateLessThan1000(employmentIncome / 4) * 2.8 - 80000;
+    if (employmentIncome < 6600000)
+      return this.truncateLessThan1000(employmentIncome / 4) * 3.2 - 440000;
+    if (employmentIncome < 8500000) return employmentIncome * 0.9 - 1100000;
+    if (8500000 <= employmentIncome) return employmentIncome - 1950000;
+    return 0;
+  }
+
   // 課税所得の計算
   calcTaxableIncome(income: number): number {
     const incomeDeduction =
@@ -32,6 +55,7 @@ export class CalculatorModel {
   // 市民税所得割の計算
   calcCityTaxIncome(income: number, cityTaxCalculateIncome: number): number {
     const civilTaxAdjustedDeduction =
+      // 仮実装
       this.#civilTaxAdjustedDeductionCalculatorModel.calcCivilTaxAdjustedDeduction(
         income
       );
@@ -47,11 +71,12 @@ export class CalculatorModel {
     const result: Output[] = [];
 
     inputList.map((input) => {
-      const taxableIncome = this.calcTaxableIncome(input.income);
+      const income = this.calcIncome(input.employmentIncome);
+      const taxableIncome = this.calcTaxableIncome(income);
       const cityTaxCalculateIncome =
         this.calcCityTaxCalculateIncome(taxableIncome);
       const cityTaxIncome = this.calcCityTaxIncome(
-        input.income,
+        income,
         cityTaxCalculateIncome
       );
       const cityTax = this.calcCityTax(cityTaxIncome);

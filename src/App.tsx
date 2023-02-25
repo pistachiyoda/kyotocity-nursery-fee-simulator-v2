@@ -14,8 +14,8 @@ enum Famiry {
 function App() {
   // const [input, setInput] = useState<Input>({ income: 0 });
   const [inputList, setInputList] = useState<Input[]>([
-    { income: 0 },
-    { income: 0 },
+    { employmentIncome: 0 },
+    { employmentIncome: 0 },
   ]);
 
   const [output, setOutput] = useState<Output[]>([
@@ -34,7 +34,7 @@ function App() {
   ]);
 
   const onChange = (familyId: number, val: number) => {
-    inputList[familyId].income = val;
+    inputList[familyId].employmentIncome = val;
     setInputList(inputList);
   };
   const calculator = new CalculatorModel();
