@@ -5,7 +5,7 @@ describe("calculatorModel", () => {
 
   test("課税所得の計算", () => {
     const result = calculator.calcTaxableIncome(3000000);
-    expect(result).toBe(2700000); // 所得税はx 0.1で仮実装
+    expect(result).toBe(2570000); // 基礎控除のみ実装
   });
 
   test("市民税算出所得税の計算", () => {

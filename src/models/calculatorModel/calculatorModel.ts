@@ -20,7 +20,7 @@ export class CalculatorModel {
   // 課税所得の計算
   calcTaxableIncome(income: number): number {
     const incomeDeduction =
-      this.#incomeDeductionCalculatorModel.calcIncomeDeduction(income);
+      this.#incomeDeductionCalculatorModel.calcTotalIncomeDeduction(income);
     return income - incomeDeduction;
   }
 
