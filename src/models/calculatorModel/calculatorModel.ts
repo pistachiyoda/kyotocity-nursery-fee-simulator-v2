@@ -43,15 +43,25 @@ export class CalculatorModel {
     return cityTaxIncome + this.#civilTaxPerCapita;
   }
 
-  calcOutputs(input: Input): Output {
-    const taxableIncome = this.calcTaxableIncome(input.income);
-    const cityTaxCalculateIncome =
-      this.calcCityTaxCalculateIncome(taxableIncome);
-    const cityTaxIncome = this.calcCityTaxIncome(
-      input.income,
-      cityTaxCalculateIncome
-    );
-    const cityTax = this.calcCityTax(cityTaxIncome);
-    return { taxableIncome, cityTaxCalculateIncome, cityTaxIncome, cityTax };
+  calcOutputs(inputList: Input[]): Output[] {
+    const result: Output[] = [];
+
+    inputList.map((input) => {
+      const taxableIncome = this.calcTaxableIncome(input.income);
+      const cityTaxCalculateIncome =
+        this.calcCityTaxCalculateIncome(taxableIncome);
+      const cityTaxIncome = this.calcCityTaxIncome(
+        input.income,
+        cityTaxCalculateIncome
+      );
+      const cityTax = this.calcCityTax(cityTaxIncome);
+      result.push({
+        taxableIncome,
+        cityTaxCalculateIncome,
+        cityTaxIncome,
+        cityTax,
+      });
+    });
+    return result;
   }
 }
