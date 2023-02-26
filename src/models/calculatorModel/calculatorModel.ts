@@ -1,3 +1,4 @@
+import { Family } from "../family";
 import { Input } from "../inputModel";
 import { Output } from "../outputModel";
 import { CivilTaxAdjustedDeductionCalculatorModel } from "./civilTaxAdjustedDeductionCalculator";
@@ -41,10 +42,13 @@ export class CalculatorModel {
   }
 
   // 課税所得の計算
-  calcTaxableIncome(income: number): number {
+  calcTaxableIncome(myIncome: number, spouseIncome: number): number {
     const incomeDeduction =
-      this.#incomeDeductionCalculatorModel.calcTotalIncomeDeduction(income);
-    return income - incomeDeduction;
+      this.#incomeDeductionCalculatorModel.calcTotalIncomeDeduction(
+        myIncome,
+        spouseIncome
+      );
+    return myIncome - incomeDeduction;
   }
 
   // 市民税算出所得割額の計算
@@ -70,9 +74,13 @@ export class CalculatorModel {
   calcOutputs(inputList: Input[]): Output[] {
     const result: Output[] = [];
 
-    inputList.map((input) => {
+    inputList.map((input, index) => {
+      const spouseIncome = this.calcIncome(
+        inputList[index === Family.MOTHER ? Family.FATHER : Family.MOTHER]
+          .employmentIncome
+      );
       const income = this.calcIncome(input.employmentIncome);
-      const taxableIncome = this.calcTaxableIncome(income);
+      const taxableIncome = this.calcTaxableIncome(income, spouseIncome);
       const cityTaxCalculateIncome =
         this.calcCityTaxCalculateIncome(taxableIncome);
       const cityTaxIncome = this.calcCityTaxIncome(

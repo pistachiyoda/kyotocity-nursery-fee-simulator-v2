@@ -39,8 +39,8 @@ describe("calculatorModel", () => {
   });
 
   test("課税所得の計算", () => {
-    const result = calculator.calcTaxableIncome(3000000);
-    expect(result).toBe(2570000); // 基礎控除のみ実装
+    const result = calculator.calcTaxableIncome(3000000, 400000);
+    expect(result).toBe(2240000); // 基礎控除,配偶者控除のみ実装
   });
 
   test("市民税算出所得税の計算", () => {

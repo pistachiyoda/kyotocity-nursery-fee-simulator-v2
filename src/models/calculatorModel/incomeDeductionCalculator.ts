@@ -8,8 +8,19 @@ export class IncomeDeductionCalculatorModel {
     return 0;
   }
 
-  calcTotalIncomeDeduction(income: number): number {
-    const basicDeduction = this.calcBasicDeduction(income);
-    return basicDeduction;
+  // 配偶者控除
+  calcSpouseDeduction(myIncome: number, spouseIncome: number) {
+    if (myIncome < spouseIncome) return 0;
+    if (myIncome > 10000000) return 0;
+    if (spouseIncome > 480000) return 0;
+    if (myIncome <= 9000000) return 330000;
+    if (myIncome <= 9500000) return 220000;
+    return 110000;
+  }
+
+  calcTotalIncomeDeduction(myIncome: number, spouseIncome: number): number {
+    const basicDeduction = this.calcBasicDeduction(myIncome);
+    const spouseDeduction = this.calcSpouseDeduction(myIncome, spouseIncome);
+    return basicDeduction + spouseDeduction;
   }
 }

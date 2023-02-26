@@ -3,13 +3,9 @@ import React, { useState } from "react";
 import "./App.css";
 import { InputIncome } from "./components/InputIncome";
 import { CalculatorModel } from "./models/calculatorModel/calculatorModel";
+import { Family } from "./models/family";
 import { Input } from "./models/inputModel";
 import { Output } from "./models/outputModel";
-
-enum Famiry {
-  FATHER, // 0
-  MOTHER, // 1
-}
 
 function App() {
   // const [input, setInput] = useState<Input>({ income: 0 });
@@ -34,8 +30,11 @@ function App() {
   ]);
 
   const onChange = (familyId: number, val: number) => {
-    inputList[familyId].employmentIncome = val;
-    setInputList(inputList);
+    const newInputList = inputList.map((input, index) => {
+      if (index === familyId) return { ...input, employmentIncome: val };
+      return input;
+    });
+    setInputList(newInputList);
   };
   const calculator = new CalculatorModel();
   const setSimulationResult = () => {
@@ -47,9 +46,9 @@ function App() {
   return (
     <div className="App">
       <h2>父</h2>
-      <InputIncome onChange={onChange} familyId={Famiry.FATHER} />
+      <InputIncome onChange={onChange} familyId={Family.FATHER} />
       <h2>母</h2>
-      <InputIncome onChange={onChange} familyId={Famiry.MOTHER} />
+      <InputIncome onChange={onChange} familyId={Family.MOTHER} />
       <Button onClick={() => setSimulationResult()}>計算する</Button>
     </div>
   );
