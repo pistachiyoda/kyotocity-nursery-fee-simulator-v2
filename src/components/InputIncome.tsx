@@ -1,5 +1,7 @@
 import { TextField } from "@mui/material";
 import React from "react";
+import { InputTiltle } from "./InputTitle";
+import { Family } from "../models/family";
 
 export const InputIncome: React.FC<{
   familyId: number;
@@ -8,5 +10,11 @@ export const InputIncome: React.FC<{
   const onChangeInputNumber = (event: React.ChangeEvent<HTMLInputElement>) => {
     onChange(familyId, Number(event.target.value));
   };
-  return <TextField fullWidth onChange={onChangeInputNumber}></TextField>;
+  const familyIdentity = familyId === Family.FATHER ? "父" : "母";
+  return (
+    <>
+      <InputTiltle>{familyIdentity + "の年収を入力する"}</InputTiltle>
+      <TextField fullWidth onChange={onChangeInputNumber}></TextField>
+    </>
+  );
 };
