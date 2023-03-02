@@ -52,9 +52,4 @@ describe("calculatorModel", () => {
     const result = calculator.calcCityTaxIncome(3000000, 180000);
     expect(result).toBe(150000);
   });
-
-  test("市民税額の計算", () => {
-    const result = calculator.calcCityTax(0);
-    expect(result).toBe(3500);
-  });
 });

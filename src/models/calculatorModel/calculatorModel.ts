@@ -6,13 +6,11 @@ import { IncomeDeductionCalculatorModel } from "./incomeDeductionCalculator";
 
 export class CalculatorModel {
   #oldCivilTaxRate: number;
-  #civilTaxPerCapita: number;
   #civilTaxAdjustedDeductionCalculatorModel: CivilTaxAdjustedDeductionCalculatorModel;
   #incomeDeductionCalculatorModel: IncomeDeductionCalculatorModel;
 
   constructor() {
     this.#oldCivilTaxRate = 0.06;
-    this.#civilTaxPerCapita = 3500;
     this.#civilTaxAdjustedDeductionCalculatorModel =
       new CivilTaxAdjustedDeductionCalculatorModel();
     this.#incomeDeductionCalculatorModel = new IncomeDeductionCalculatorModel();
@@ -66,11 +64,6 @@ export class CalculatorModel {
     return cityTaxCalculateIncome - civilTaxAdjustedDeduction;
   }
 
-  // 市民税額の計算
-  calcCityTax(cityTaxIncome: number): number {
-    return cityTaxIncome + this.#civilTaxPerCapita;
-  }
-
   calcOutputs(inputList: Input[]): Output[] {
     const result: Output[] = [];
 
@@ -87,12 +80,10 @@ export class CalculatorModel {
         income,
         cityTaxCalculateIncome
       );
-      const cityTax = this.calcCityTax(cityTaxIncome);
       result.push({
         taxableIncome,
         cityTaxCalculateIncome,
         cityTaxIncome,
-        cityTax,
       });
     });
     return result;
