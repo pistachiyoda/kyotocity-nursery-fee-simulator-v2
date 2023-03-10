@@ -10,9 +10,10 @@ import { Family } from "./models/family";
 import { Input } from "./models/inputModel";
 import { Output } from "./models/outputModel";
 import CalculateIcon from "@mui/icons-material/Calculate";
+import { layerRange } from "./models/layerRange";
+import { layerSpecifierModel } from "./models/layerSpecifierModel";
 
 function App() {
-  // const [input, setInput] = useState<Input>({ income: 0 });
   const [inputList, setInputList] = useState<Input[]>([
     { employmentIncome: 0 },
     { employmentIncome: 0 },
@@ -23,13 +24,11 @@ function App() {
       taxableIncome: 0,
       cityTaxCalculateIncome: 0,
       cityTaxIncome: 0,
-      cityTax: 0,
     },
     {
       taxableIncome: 0,
       cityTaxCalculateIncome: 0,
       cityTaxIncome: 0,
-      cityTax: 0,
     },
   ]);
 
@@ -41,12 +40,24 @@ function App() {
     setInputList(newInputList);
   };
   const calculator = new CalculatorModel();
+  const layerSpecifier = new layerSpecifierModel();
+
   const setSimulationResult = () => {
     const latestOutput = calculator.calcOutputs(inputList);
-    console.log(latestOutput);
     setOutput(latestOutput);
   };
-  console.log(output);
+
+  const [layer, setLayer] = useState<layerRange>("-");
+
+  const setResult = () => {
+    setSimulationResult();
+    // setLayer(layerSpecifier.specifyLayer());
+    console.log("hoge");
+  };
+  const onClick = () => {
+    setResult();
+  };
+
   return (
     <>
       <title>京都市保育料シミュレーター</title>
@@ -92,10 +103,9 @@ function App() {
         <InputIncome onChange={onChange} familyId={Family.FATHER} />
         <StepTitle>Step2 母の情報を入力</StepTitle>
         <InputIncome onChange={onChange} familyId={Family.MOTHER} />
-        <Button onClick={() => setSimulationResult()}>計算する</Button>
         <StepTitle>Step3 保育料シミュレーション結果</StepTitle>
         <Stack>
-          <LayerTable></LayerTable>
+          <LayerTable>{layer}</LayerTable>
           <NurseryFeeTable></NurseryFeeTable>
         </Stack>
         <Typography
@@ -119,9 +129,7 @@ function App() {
             zIndex: "1",
             fontWeight: "bold",
           }}
-          onClick={() =>
-            console.log("保育料を計算するボタンがクリックされた！")
-          }
+          onClick={onClick}
         >
           保育料を計算する&nbsp;
           <CalculateIcon />

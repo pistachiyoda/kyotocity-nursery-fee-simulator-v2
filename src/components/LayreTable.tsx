@@ -20,7 +20,9 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
-export const LayerTable: React.FC = () => (
+export const LayerTable: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => (
   <TableContainer>
     <Table>
       <TableHead>
@@ -32,7 +34,7 @@ export const LayerTable: React.FC = () => (
       </TableHead>
       <TableBody>
         <TableRow>
-          <TableCell sx={{ textAlign: "center" }}>22 階層</TableCell>
+          <TableCell sx={{ textAlign: "center" }}>{children} 階層</TableCell>
         </TableRow>
       </TableBody>
     </Table>
