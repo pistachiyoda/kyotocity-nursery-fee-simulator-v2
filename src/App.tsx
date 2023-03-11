@@ -7,17 +7,23 @@ import { NurseryFeeTable } from "./components/NurseryFeeTable";
 import { StepTitle } from "./components/StepTiltle";
 import { CalculatorModel } from "./models/calculatorModel/calculatorModel";
 import { Family } from "./models/family";
-import { Input } from "./models/inputModel";
 import { Output } from "./models/outputModel";
 import CalculateIcon from "@mui/icons-material/Calculate";
 import { layerRange } from "./models/layerRange";
 import { layerSpecifierModel } from "./models/layerSpecifierModel";
+import { InputInfo } from "./models/inputModel/inputInfoModel";
+import { RadioInputInfo } from "./components/RadioInputlnfo";
+import { SelectInputInfo } from "./components/SelectInputInfo";
 
 function App() {
-  const [inputList, setInputList] = useState<Input[]>([
-    { employmentIncome: 0 },
-    { employmentIncome: 0 },
-  ]);
+  const [inputInfo, setInputInfo] = useState<InputInfo>({
+    generalInfo: {
+      isWelfareHousehold: false,
+      isSingleParentHousehold: false,
+      numberOfChildren: 1,
+    },
+    individualInfoInputList: [{ employmentIncome: 0 }, { employmentIncome: 0 }],
+  });
 
   const [output, setOutput] = useState<Output[]>([
     {
@@ -32,30 +38,64 @@ function App() {
     },
   ]);
 
-  const onChange = (familyId: number, val: number) => {
-    const newInputList = inputList.map((input, index) => {
-      if (index === familyId) return { ...input, employmentIncome: val };
-      return input;
-    });
-    setInputList(newInputList);
+  const onIsWelfareHouseholdChange = (val: boolean) => {
+    const generalInfo = {
+      ...inputInfo.generalInfo,
+      isWelfareHousehold: val,
+    };
+    const newInputInfo = { ...inputInfo, generalInfo };
+    console.log(newInputInfo);
+    setInputInfo(newInputInfo);
+  };
+
+  const onIsSingleParentHouseholdChange = (val: boolean) => {
+    const generalInfo = {
+      ...inputInfo.generalInfo,
+      isSingleParentHousehold: val,
+    };
+    const newInputInfo = { ...inputInfo, generalInfo };
+    console.log(newInputInfo);
+    setInputInfo(newInputInfo);
+  };
+
+  const numberOfChildrenRange = [1, 2, 3, 4];
+
+  const onNumberOfChildrenChange = (val: number) => {
+    const generalInfo = {
+      ...inputInfo.generalInfo,
+      numberOfChildren: val,
+    };
+    const newInputInfo = { ...inputInfo, generalInfo };
+    console.log(newInputInfo);
+    setInputInfo(newInputInfo);
+  };
+
+  const onIndividualInfoChange = (familyId: number, val: number) => {
+    const individualInfoInputList = inputInfo.individualInfoInputList.map(
+      (input, index) => {
+        if (index === familyId) return { ...input, employmentIncome: val };
+        return input;
+      }
+    );
+    const newInputInfo = { ...inputInfo, individualInfoInputList };
+    setInputInfo(newInputInfo);
   };
   const calculator = new CalculatorModel();
   const layerSpecifier = new layerSpecifierModel();
 
-  const setSimulationResult = () => {
-    const latestOutput = calculator.calcOutputs(inputList);
-    setOutput(latestOutput);
+  const calcSimulationResult = () => {
+    return calculator.calcOutputs(inputInfo.individualInfoInputList);
   };
 
   const [layer, setLayer] = useState<layerRange>("-");
 
   const setResult = () => {
-    setSimulationResult();
-    // setLayer(layerSpecifier.specifyLayer());
+    const latestOutput = calcSimulationResult();
+    setOutput(latestOutput);
+    const familyCityTax =
+      latestOutput[0].cityTaxIncome + latestOutput[1].cityTaxIncome;
+    setLayer(layerSpecifier.specifyLayer(familyCityTax));
     console.log("hoge");
-  };
-  const onClick = () => {
-    setResult();
   };
 
   return (
@@ -94,16 +134,38 @@ function App() {
         使い方
       </Typography>
       <List>
-        <ListItem>Step1. 父の収入を入力</ListItem>
-        <ListItem>Step2. 母の年収を入力</ListItem>
-        <ListItem>Step3. 【保育料を計算する】ボタンをクリック</ListItem>
+        <ListItem>Step1. 家庭環境情報を入力</ListItem>
+        <ListItem>Step2. 父の収入を入力</ListItem>
+        <ListItem>Step3. 母の年収を入力</ListItem>
+        <ListItem>Step4. 【保育料を計算する】ボタンをクリック</ListItem>
       </List>
       <div className="App">
-        <StepTitle>Step1 父の情報を入力</StepTitle>
-        <InputIncome onChange={onChange} familyId={Family.FATHER} />
-        <StepTitle>Step2 母の情報を入力</StepTitle>
-        <InputIncome onChange={onChange} familyId={Family.MOTHER} />
-        <StepTitle>Step3 保育料シミュレーション結果</StepTitle>
+        <StepTitle>Step1 家庭環境情報を入力</StepTitle>
+        <RadioInputInfo
+          onChange={onIsWelfareHouseholdChange}
+          subtitle={"生活保護世帯かどうか"}
+        />
+        <RadioInputInfo
+          onChange={onIsSingleParentHouseholdChange}
+          subtitle={"ひとり親世帯かどうか"}
+        />
+        <SelectInputInfo
+          onChange={onNumberOfChildrenChange}
+          values={numberOfChildrenRange}
+          subtitle={"こどもの人数は何人か"}
+          currentValue={inputInfo.generalInfo.numberOfChildren}
+        />
+        <StepTitle>Step2 父の情報を入力</StepTitle>
+        <InputIncome
+          onChange={onIndividualInfoChange}
+          familyId={Family.FATHER}
+        />
+        <StepTitle>Step3 母の情報を入力</StepTitle>
+        <InputIncome
+          onChange={onIndividualInfoChange}
+          familyId={Family.MOTHER}
+        />
+        <StepTitle>Step4 保育料シミュレーション結果</StepTitle>
         <Stack>
           <LayerTable>{layer}</LayerTable>
           <NurseryFeeTable></NurseryFeeTable>
@@ -129,7 +191,7 @@ function App() {
             zIndex: "1",
             fontWeight: "bold",
           }}
-          onClick={onClick}
+          onClick={setResult}
         >
           保育料を計算する&nbsp;
           <CalculateIcon />

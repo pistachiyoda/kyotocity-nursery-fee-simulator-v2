@@ -1,5 +1,5 @@
 import { Family } from "../family";
-import { Input } from "../inputModel";
+import { IndividualInfoInput } from "../inputModel/individualInfoInputModel";
 import { Output } from "../outputModel";
 import { CivilTaxAdjustedDeductionCalculatorModel } from "./civilTaxAdjustedDeductionCalculator";
 import { IncomeDeductionCalculatorModel } from "./incomeDeductionCalculator";
@@ -64,13 +64,14 @@ export class CalculatorModel {
     return cityTaxCalculateIncome - civilTaxAdjustedDeduction;
   }
 
-  calcOutputs(inputList: Input[]): Output[] {
+  calcOutputs(individualInputList: IndividualInfoInput[]): Output[] {
     const result: Output[] = [];
 
-    inputList.map((input, index) => {
+    individualInputList.map((input, index) => {
       const spouseIncome = this.calcIncome(
-        inputList[index === Family.MOTHER ? Family.FATHER : Family.MOTHER]
-          .employmentIncome
+        individualInputList[
+          index === Family.MOTHER ? Family.FATHER : Family.MOTHER
+        ].employmentIncome
       );
       const income = this.calcIncome(input.employmentIncome);
       const taxableIncome = this.calcTaxableIncome(income, spouseIncome);
