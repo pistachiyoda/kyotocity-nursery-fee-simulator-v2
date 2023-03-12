@@ -82,6 +82,7 @@ export class CalculatorModel {
         cityTaxCalculateIncome
       );
       result.push({
+        income,
         taxableIncome,
         cityTaxCalculateIncome,
         cityTaxIncome,

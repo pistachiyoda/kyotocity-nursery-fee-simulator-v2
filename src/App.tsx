@@ -27,11 +27,13 @@ function App() {
 
   const [output, setOutput] = useState<Output[]>([
     {
+      income: 0,
       taxableIncome: 0,
       cityTaxCalculateIncome: 0,
       cityTaxIncome: 0,
     },
     {
+      income: 0,
       taxableIncome: 0,
       cityTaxCalculateIncome: 0,
       cityTaxIncome: 0,
@@ -94,8 +96,9 @@ function App() {
     setOutput(latestOutput);
     const familyCityTax =
       latestOutput[0].cityTaxIncome + latestOutput[1].cityTaxIncome;
-    setLayer(layerSpecifier.specifyLayer(familyCityTax));
-    console.log("hoge");
+    const income = latestOutput[0].income;
+    setLayer(layerSpecifier.specifyLayer(familyCityTax, income, inputInfo));
+    console.log(latestOutput);
   };
 
   return (

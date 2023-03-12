@@ -1,10 +1,24 @@
+import { InputInfo } from "./inputModel/inputInfoModel";
 import { layerRange } from "./layerRange";
+import { Output } from "./outputModel";
 
 export class layerSpecifierModel {
-  specifyLayer(familyCityTax: number): layerRange {
-    // 生活保護世帯かどうか-> 1
-    // 給与所得 204万未満-> 2
-    // 給与所得と配偶者+不要者の人数 ->3
+  specifyLayer(
+    familyCityTax: number,
+    income: number,
+    inputInfo: InputInfo
+  ): layerRange {
+    if (inputInfo.generalInfo.isWelfareHousehold) return 1;
+    if (
+      inputInfo.generalInfo.isSingleParentHousehold &&
+      inputInfo.individualInfoInputList[0].employmentIncome < 2044000
+    )
+      return 2;
+    if (
+      inputInfo.individualInfoInputList[1].employmentIncome <= 1030000 &&
+      income <= 350000 * (2 + inputInfo.generalInfo.numberOfChildren) + 420000
+    )
+      return 3;
     if (familyCityTax <= 34999) return 4;
     if (familyCityTax <= 41999) return 5;
     if (familyCityTax <= 48599) return 6;
