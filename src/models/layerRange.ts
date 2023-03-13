@@ -21,4 +21,4 @@ export type layerRange =
   | 20
   | 21
   | 22
-  | "-";
+  | 0;

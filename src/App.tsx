@@ -89,7 +89,11 @@ function App() {
     return calculator.calcOutputs(inputInfo.individualInfoInputList);
   };
 
-  const [layer, setLayer] = useState<layerRange>("-");
+  const [layer, setLayer] = useState<layerRange>(0);
+
+  const [nurseryFee_a, setNurseryFee_a] = useState(0);
+  const [nurseryFee_b, setNurseryFee_b] = useState(0);
+  const [nurseryFee_c, setNurseryFee_c] = useState(0);
 
   const setResult = () => {
     const latestOutput = calcSimulationResult();
@@ -97,7 +101,11 @@ function App() {
     const familyCityTax =
       latestOutput[0].cityTaxIncome + latestOutput[1].cityTaxIncome;
     const income = latestOutput[0].income;
-    setLayer(layerSpecifier.specifyLayer(familyCityTax, income, inputInfo));
+    const layer = layerSpecifier.specifyLayer(familyCityTax, income, inputInfo);
+    setLayer(layer);
+    setNurseryFee_a(layerSpecifier.specifyNurseryFee(layer)[0]);
+    setNurseryFee_b(layerSpecifier.specifyNurseryFee(layer)[1]);
+    setNurseryFee_c(layerSpecifier.specifyNurseryFee(layer)[2]);
     console.log(latestOutput);
   };
 
@@ -171,8 +179,21 @@ function App() {
         <StepTitle>Step4 保育料シミュレーション結果</StepTitle>
         <Stack>
           <LayerTable>{layer}</LayerTable>
-          <NurseryFeeTable></NurseryFeeTable>
+          <NurseryFeeTable
+            a={nurseryFee_a}
+            b={nurseryFee_b}
+            c={nurseryFee_c}
+          ></NurseryFeeTable>
         </Stack>
+        <Typography
+          variant="body2"
+          sx={{
+            fontSize: "12px",
+            mt: 1,
+          }}
+        >
+          ※保育時間9時間の場合の金額です。
+        </Typography>
         <Typography
           variant="body2"
           sx={{
