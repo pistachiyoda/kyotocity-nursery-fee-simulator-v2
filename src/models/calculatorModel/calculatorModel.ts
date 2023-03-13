@@ -61,6 +61,8 @@ export class CalculatorModel {
       this.#civilTaxAdjustedDeductionCalculatorModel.calcCivilTaxAdjustedDeduction(
         income
       );
+    // const cityTaxIncome = cityTaxCalculateIncome - civilTaxAdjustedDeduction;
+    // return cityTaxIncome < 0 ? 0 : cityTaxIncome;
     return cityTaxCalculateIncome - civilTaxAdjustedDeduction;
   }
 
