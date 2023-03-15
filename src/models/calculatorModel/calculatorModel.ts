@@ -1,5 +1,6 @@
 import { Family } from "../family";
 import { IndividualInfoInput } from "../inputModel/individualInfoInputModel";
+import { InputInfo } from "../inputModel/inputInfoModel";
 import { Output } from "../outputModel";
 import { CivilTaxAdjustedDeductionCalculatorModel } from "./civilTaxAdjustedDeductionCalculator";
 import { IncomeDeductionCalculatorModel } from "./incomeDeductionCalculator";
@@ -55,23 +56,28 @@ export class CalculatorModel {
   }
 
   // 市民税所得割の計算
-  calcCityTaxIncome(income: number, cityTaxCalculateIncome: number): number {
+  calcCityTaxIncome(
+    myIncome: number,
+    spouseIncome: number,
+    input: InputInfo,
+    cityTaxCalculateIncome: number
+  ): number {
     const civilTaxAdjustedDeduction =
-      // 仮実装
       this.#civilTaxAdjustedDeductionCalculatorModel.calcCivilTaxAdjustedDeduction(
-        income
+        myIncome,
+        spouseIncome,
+        input
       );
-    // const cityTaxIncome = cityTaxCalculateIncome - civilTaxAdjustedDeduction;
-    // return cityTaxIncome < 0 ? 0 : cityTaxIncome;
     return cityTaxCalculateIncome - civilTaxAdjustedDeduction;
   }
 
-  calcOutputs(individualInputList: IndividualInfoInput[]): Output[] {
+  calcOutputs(inputInfo: InputInfo): Output[] {
     const result: Output[] = [];
 
-    individualInputList.map((input, index) => {
+    inputInfo.individualInfoInputList.map((input, index) => {
+      console.log("hoge");
       const spouseIncome = this.calcIncome(
-        individualInputList[
+        inputInfo.individualInfoInputList[
           index === Family.MOTHER ? Family.FATHER : Family.MOTHER
         ].employmentIncome
       );
@@ -81,6 +87,8 @@ export class CalculatorModel {
         this.calcCityTaxCalculateIncome(taxableIncome);
       const cityTaxIncome = this.calcCityTaxIncome(
         income,
+        spouseIncome,
+        inputInfo,
         cityTaxCalculateIncome
       );
       result.push({

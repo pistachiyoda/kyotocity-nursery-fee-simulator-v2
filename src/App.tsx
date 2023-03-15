@@ -86,7 +86,7 @@ function App() {
   const layerSpecifier = new layerSpecifierModel();
 
   const calcSimulationResult = () => {
-    return calculator.calcOutputs(inputInfo.individualInfoInputList);
+    return calculator.calcOutputs(inputInfo);
   };
 
   const [layer, setLayer] = useState<layerRange>(0);

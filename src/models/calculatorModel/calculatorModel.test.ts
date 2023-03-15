@@ -48,8 +48,61 @@ describe("calculatorModel", () => {
     expect(result).toBe(180000);
   });
 
-  test("市民税所得割額の計算", () => {
-    const result = calculator.calcCityTaxIncome(3000000, 180000);
-    expect(result).toBe(150000);
+  test("市民税所得割額の計算1", () => {
+    const inputInfo = {
+      generalInfo: {
+        isWelfareHousehold: false,
+        isSingleParentHousehold: false,
+        numberOfChildren: 1,
+      },
+      individualInfoInputList: [
+        { employmentIncome: 0 },
+        { employmentIncome: 0 },
+      ],
+    };
+    const result = calculator.calcCityTaxIncome(
+      5000000,
+      2000000,
+      inputInfo,
+      1000000
+    );
+    expect(result).toBe(1000000);
+  });
+
+  test("市民税所得割額の計算2", () => {
+    const inputInfo = {
+      generalInfo: {
+        isWelfareHousehold: false,
+        isSingleParentHousehold: 0,
+        numberOfChildren: 1,
+      },
+      individualInfoInputList: [
+        { employmentIncome: 0 },
+        { employmentIncome: 0 },
+      ],
+    };
+    const result = calculator.calcCityTaxIncome(4360000, 0, inputInfo, 1000000);
+    expect(result).toBe(997500);
+  });
+
+  test("市民税所得割額の計算3", () => {
+    const inputInfo = {
+      generalInfo: {
+        isWelfareHousehold: false,
+        isSingleParentHousehold: false,
+        numberOfChildren: 1,
+      },
+      individualInfoInputList: [
+        { employmentIncome: 0 },
+        { employmentIncome: 0 },
+      ],
+    };
+    const result = calculator.calcCityTaxIncome(
+      5000000,
+      500000,
+      inputInfo,
+      1000000
+    );
+    expect(result).toBe(997500);
   });
 });
