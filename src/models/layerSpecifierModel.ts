@@ -41,7 +41,7 @@ export class layerSpecifierModel {
   }
 
   // 保育標準時間は9時間で計算
-  // [保育園（所）、幼保連携型及び保育所型認定子供園, 小規模,幼稚園型認定こども園
+  // [保育園（所）・幼保連携型及び保育所型認定子供園, 小規模保育事業所・幼稚園型認定こども園
   specifyNurseryFee = (layer: number): [number, number, number] => {
     if (layer === 1) return [0, 0, 0];
     if (layer === 2) return [0, 0, 0];
@@ -65,6 +65,35 @@ export class layerSpecifierModel {
     if (layer === 20) return [61600, 43400, 56900];
     if (layer === 21) return [67100, 46600, 61900];
     if (layer === 22) return [83100, 58000, 76700];
+    return [0, 0, 0];
+  };
+
+  // 子どもはぐくみ応援額
+  // 保育標準時間は9時間で計算
+  // [保育園（所）、幼保連携型及び保育所型認定子供園, 小規模,幼稚園型認定こども園
+  specifyMitigatedNurseryFee = (layer: number): [number, number, number] => {
+    if (layer === 1) return [0, 0, 0];
+    if (layer === 2) return [0, 0, 0];
+    if (layer === 3) return [1700, 1500, 1600];
+    if (layer === 4) return [3000, 2600, 2800];
+    if (layer === 5) return [3000, 2600, 2800];
+    if (layer === 6) return [3000, 2600, 2800];
+    if (layer === 7) return [5800, 5000, 5400];
+    if (layer === 8) return [6800, 5900, 6300];
+    if (layer === 9) return [8400, 7300, 7800];
+    if (layer === 10) return [8400, 7300, 7800];
+    if (layer === 11) return [8400, 7300, 7800];
+    if (layer === 12) return [8400, 7300, 7800];
+    if (layer === 13) return [10900, 9400, 10100];
+    if (layer === 14) return [10900, 9400, 10100];
+    if (layer === 15) return [10900, 9400, 10100];
+    if (layer === 16) return [13900, 12000, 12800];
+    if (layer === 17) return [13900, 12000, 12800];
+    if (layer === 18) return [19700, 17000, 18200];
+    if (layer === 19) return [19700, 17000, 18200];
+    if (layer === 20) return [20700, 17900, 19100];
+    if (layer === 21) return [21100, 18200, 19500];
+    if (layer === 22) return [26500, 22800, 24500];
     return [0, 0, 0];
   };
 }
