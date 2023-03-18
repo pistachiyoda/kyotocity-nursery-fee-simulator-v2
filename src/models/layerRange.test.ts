@@ -9,6 +9,7 @@ describe("layerSpecifierModel", () => {
         isWelfareHousehold: true,
         isSingleParentHousehold: false,
         numberOfChildren: 1,
+        ageOfChildren: [0],
       },
       individualInfoInputList: [
         { employmentIncome: 0 },
@@ -23,6 +24,7 @@ describe("layerSpecifierModel", () => {
         isWelfareHousehold: false,
         isSingleParentHousehold: true,
         numberOfChildren: 1,
+        ageOfChildren: [0],
       },
       individualInfoInputList: [
         { employmentIncome: 2043999 },
@@ -37,6 +39,7 @@ describe("layerSpecifierModel", () => {
         isWelfareHousehold: false,
         isSingleParentHousehold: false,
         numberOfChildren: 2,
+        ageOfChildren: [0],
       },
       individualInfoInputList: [
         { employmentIncome: 1820000 },
@@ -51,6 +54,7 @@ describe("layerSpecifierModel", () => {
         isWelfareHousehold: false,
         isSingleParentHousehold: false,
         numberOfChildren: 1,
+        ageOfChildren: [0],
       },
       individualInfoInputList: [
         { employmentIncome: 0 },

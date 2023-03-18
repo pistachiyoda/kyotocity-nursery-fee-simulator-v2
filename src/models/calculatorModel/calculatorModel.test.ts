@@ -54,6 +54,7 @@ describe("calculatorModel", () => {
         isWelfareHousehold: false,
         isSingleParentHousehold: false,
         numberOfChildren: 1,
+        ageOfChildren: [0],
       },
       individualInfoInputList: [
         { employmentIncome: 0 },
@@ -75,6 +76,7 @@ describe("calculatorModel", () => {
         isWelfareHousehold: false,
         isSingleParentHousehold: 0,
         numberOfChildren: 1,
+        ageOfChildren: [0],
       },
       individualInfoInputList: [
         { employmentIncome: 0 },
@@ -91,6 +93,7 @@ describe("calculatorModel", () => {
         isWelfareHousehold: false,
         isSingleParentHousehold: false,
         numberOfChildren: 1,
+        ageOfChildren: [0],
       },
       individualInfoInputList: [
         { employmentIncome: 0 },

@@ -14,6 +14,7 @@ import { layerSpecifierModel } from "./models/layerSpecifierModel";
 import { InputInfo } from "./models/inputModel/inputInfoModel";
 import { RadioInputInfo } from "./components/RadioInputlnfo";
 import { SelectInputInfo } from "./components/SelectInputInfo";
+import { InputAge } from "./components/InputAge";
 
 function App() {
   const [inputInfo, setInputInfo] = useState<InputInfo>({
@@ -21,6 +22,7 @@ function App() {
       isWelfareHousehold: false,
       isSingleParentHousehold: false,
       numberOfChildren: 1,
+      ageOfChildren: [0],
     },
     individualInfoInputList: [{ employmentIncome: 0 }, { employmentIncome: 0 }],
   });
@@ -60,12 +62,25 @@ function App() {
     setInputInfo(newInputInfo);
   };
 
-  const numberOfChildrenRange = [1, 2, 3, 4];
+  const numberOfChildrenRange = [1, 2, 3];
 
   const onNumberOfChildrenChange = (val: number) => {
     const generalInfo = {
       ...inputInfo.generalInfo,
       numberOfChildren: val,
+      ageOfChildren: Array(val).fill(0),
+    };
+    const newInputInfo = { ...inputInfo, generalInfo };
+    console.log(newInputInfo);
+    setInputInfo(newInputInfo);
+  };
+
+  const onAgeOfChildrenChange = (val: number, index: number) => {
+    const ages = inputInfo.generalInfo.ageOfChildren;
+    ages[index] = val;
+    const generalInfo = {
+      ...inputInfo.generalInfo,
+      ageOfChildren: ages,
     };
     const newInputInfo = { ...inputInfo, generalInfo };
     console.log(newInputInfo);
@@ -103,6 +118,7 @@ function App() {
     const income = latestOutput[0].income;
     const layer = layerSpecifier.specifyLayer(familyCityTax, income, inputInfo);
     setLayer(layer);
+    // 各子供の年齢と家庭情報->2歳以下の子供の人数分の配列に
     setNurseryFee_a(layerSpecifier.specifyNurseryFee(layer)[0]);
     setNurseryFee_b(layerSpecifier.specifyNurseryFee(layer)[1]);
     setNurseryFee_c(layerSpecifier.specifyNurseryFee(layer)[2]);
@@ -160,12 +176,24 @@ function App() {
           onChange={onIsSingleParentHouseholdChange}
           subtitle={"ひとり親世帯かどうか"}
         />
-        <SelectInputInfo
-          onChange={onNumberOfChildrenChange}
-          values={numberOfChildrenRange}
-          subtitle={"こどもの人数は何人か"}
-          currentValue={inputInfo.generalInfo.numberOfChildren}
-        />
+        <Stack spacing={2}>
+          <SelectInputInfo
+            onChange={onNumberOfChildrenChange}
+            values={numberOfChildrenRange}
+            subtitle={"こどもの人数は何人か"}
+            currentValue={inputInfo.generalInfo.numberOfChildren}
+          />
+          {Array.from({ length: inputInfo.generalInfo.numberOfChildren }).map(
+            (_, index) => (
+              <InputAge
+                onChange={onAgeOfChildrenChange}
+                key={index}
+                index={index}
+                currentVal={inputInfo.generalInfo.ageOfChildren[index]}
+              ></InputAge>
+            )
+          )}
+        </Stack>
         <StepTitle>Step2 父の情報を入力</StepTitle>
         <InputIncome
           onChange={onIndividualInfoChange}
