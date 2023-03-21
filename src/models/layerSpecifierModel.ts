@@ -1,3 +1,4 @@
+import { GeneralInfoInput } from "./inputModel/generalInfoInput";
 import { InputInfo } from "./inputModel/inputInfoModel";
 import { layerRange } from "./layerRange";
 import { Output } from "./outputModel";
@@ -96,4 +97,15 @@ export class layerSpecifierModel {
     if (layer === 22) return [26500, 22800, 24500];
     return [0, 0, 0];
   };
+
+  // 階層と家族情報からその家族の２歳以下の子供の保育料を計算して２次元配列で返す
+  specifyFamilyNurseryFee(
+    layer: number,
+    familyGeneralInfo: GeneralInfoInput
+  ): number[][] {
+    return [
+      [1000, 2000, 3000],
+      [1500, 2500, 3500],
+    ];
+  }
 }

@@ -106,9 +106,9 @@ function App() {
 
   const [layer, setLayer] = useState<layerRange>(0);
 
-  const [nurseryFee_a, setNurseryFee_a] = useState(0);
-  const [nurseryFee_b, setNurseryFee_b] = useState(0);
-  const [nurseryFee_c, setNurseryFee_c] = useState(0);
+  const [nurseryFee_a, setNurseryFee_a] = useState([0]);
+  const [nurseryFee_b, setNurseryFee_b] = useState([0]);
+  const [nurseryFee_c, setNurseryFee_c] = useState([0]);
 
   const setResult = () => {
     const latestOutput = calcSimulationResult();
@@ -118,10 +118,19 @@ function App() {
     const income = latestOutput[0].income;
     const layer = layerSpecifier.specifyLayer(familyCityTax, income, inputInfo);
     setLayer(layer);
-    // 各子供の年齢と家庭情報->2歳以下の子供の人数分の配列に
-    setNurseryFee_a(layerSpecifier.specifyNurseryFee(layer)[0]);
-    setNurseryFee_b(layerSpecifier.specifyNurseryFee(layer)[1]);
-    setNurseryFee_c(layerSpecifier.specifyNurseryFee(layer)[2]);
+    const familyNurseryFee = layerSpecifier.specifyFamilyNurseryFee(
+      layer,
+      inputInfo.generalInfo
+    );
+    const a = familyNurseryFee.map((content) => content[0]);
+    const b = familyNurseryFee.map((content) => content[1]);
+    const c = familyNurseryFee.map((content) => content[2]);
+    setNurseryFee_a(a);
+    setNurseryFee_b(b);
+    setNurseryFee_c(c);
+    console.log(nurseryFee_a);
+    console.log(nurseryFee_b);
+    console.log(nurseryFee_c);
     console.log(latestOutput);
   };
 
@@ -207,11 +216,18 @@ function App() {
         <StepTitle>Step4 保育料シミュレーション結果</StepTitle>
         <Stack>
           <LayerTable>{layer}</LayerTable>
-          <NurseryFeeTable
-            a={nurseryFee_a}
-            b={nurseryFee_b}
-            c={nurseryFee_c}
-          ></NurseryFeeTable>
+          <Stack spacing={3}>
+            {Array.from({ length: inputInfo.generalInfo.numberOfChildren }).map(
+              (_, index) => (
+                <NurseryFeeTable
+                  key={index}
+                  a={nurseryFee_a[index]}
+                  b={nurseryFee_b[index]}
+                  c={nurseryFee_c[index]}
+                ></NurseryFeeTable>
+              )
+            )}
+          </Stack>
         </Stack>
         <Typography
           variant="body2"
