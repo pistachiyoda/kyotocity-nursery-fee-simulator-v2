@@ -2,7 +2,6 @@ import { GeneralInfoInput } from "./inputModel/generalInfoInput";
 import { InputInfo } from "./inputModel/inputInfoModel";
 import { layerRange } from "./layerRange";
 import { Output } from "./outputModel";
-
 export class layerSpecifierModel {
   specifyLayer(
     familyCityTax: number,
@@ -103,9 +102,88 @@ export class layerSpecifierModel {
     layer: number,
     familyGeneralInfo: GeneralInfoInput
   ): number[][] {
-    return [
-      [1000, 2000, 3000],
-      [1500, 2500, 3500],
-    ];
+    const familyNurseryFee: number[][] = [];
+
+    const threeToFiveChildren = familyGeneralInfo.ageOfChildren.filter(
+      (age) => age <= 5 && age >= 3
+    );
+
+    const under2Children = familyGeneralInfo.ageOfChildren.filter(
+      (age) => age <= 2
+    );
+
+    under2Children.forEach((age, index) => {
+      // ひとり親の場合
+      if (
+        familyGeneralInfo.isSingleParentHousehold &&
+        3 <= layer &&
+        layer <= 9
+      ) {
+        if (index === 0)
+          familyNurseryFee.push(this.specifyMitigatedNurseryFee(layer));
+        // 第二子以降は保育料免除
+        else familyNurseryFee.push([0, 0, 0]);
+        return;
+      }
+
+      // 2人以上の子どもが2歳以下で保育園等を同時に利用する世帯に対する軽減等
+      if (threeToFiveChildren.length === 0 && under2Children.length >= 2) {
+        if (index === 0) {
+          familyNurseryFee.push(this.specifyNurseryFee(layer));
+          return;
+        }
+        if (index === 1) {
+          familyNurseryFee.push(this.specifyMitigatedNurseryFee(layer));
+          return;
+        }
+        if (index === 2) {
+          familyNurseryFee.push([0, 0, 0]);
+          return;
+        }
+      }
+
+      // 1人以上の子どもが5歳以下で保育園等を同時に利用する世帯に対する軽減等
+      if (threeToFiveChildren.length >= 1 && under2Children.length >= 1) {
+        if (threeToFiveChildren.length === 2) {
+          if (index === 0) {
+            familyNurseryFee.push([0, 0, 0]);
+            return;
+          }
+        }
+        if (threeToFiveChildren.length === 1) {
+          if (index === 0) {
+            familyNurseryFee.push(this.specifyMitigatedNurseryFee(layer));
+            return;
+          }
+          if (index === 1) {
+            familyNurseryFee.push([0, 0, 0]);
+            return;
+          }
+        }
+      }
+
+      // 2人以上子供がいるが、保育園等を同時利用しない（上の子が既に小学生以上など）場合
+      if (familyGeneralInfo.numberOfChildren >= 2 && 3 <= layer && layer <= 9) {
+        if (index === 0)
+          familyNurseryFee.push(this.specifyMitigatedNurseryFee(layer));
+        if (1 <= index) familyNurseryFee.push([0, 0, 0]);
+        return;
+      }
+
+      // 上記に該当しない3人目以降の子どもに対する免除
+      if (
+        familyGeneralInfo.numberOfChildren >= 3 &&
+        10 <= layer &&
+        layer <= 16
+      ) {
+        familyNurseryFee.push([0, 0, 0]);
+        return;
+      }
+
+      // 何も軽減がない場合（通常のケース）
+      familyNurseryFee.push(this.specifyNurseryFee(layer));
+    });
+    console.log(familyNurseryFee);
+    return familyNurseryFee;
   }
 }

@@ -76,8 +76,9 @@ function App() {
   };
 
   const onAgeOfChildrenChange = (val: number, index: number) => {
-    const ages = inputInfo.generalInfo.ageOfChildren;
+    const ages = [...inputInfo.generalInfo.ageOfChildren];
     ages[index] = val;
+    ages.sort((a, b) => a - b);
     const generalInfo = {
       ...inputInfo.generalInfo,
       ageOfChildren: ages,
@@ -214,19 +215,23 @@ function App() {
           familyId={Family.MOTHER}
         />
         <StepTitle>Step4 保育料シミュレーション結果</StepTitle>
-        <Stack>
+        <Stack spacing={2}>
           <LayerTable>{layer}</LayerTable>
-          <Stack spacing={3}>
-            {Array.from({ length: inputInfo.generalInfo.numberOfChildren }).map(
-              (_, index) => (
-                <NurseryFeeTable
-                  key={index}
-                  a={nurseryFee_a[index]}
-                  b={nurseryFee_b[index]}
-                  c={nurseryFee_c[index]}
-                ></NurseryFeeTable>
-              )
-            )}
+          <Stack spacing={1}>
+            {Array.from({
+              length: inputInfo.generalInfo.ageOfChildren.filter(
+                (age) => age <= 2
+              ).length,
+            }).map((_, index) => (
+              <NurseryFeeTable
+                key={index}
+                index={index}
+                age={inputInfo.generalInfo.ageOfChildren[index]}
+                a={nurseryFee_a[index]}
+                b={nurseryFee_b[index]}
+                c={nurseryFee_c[index]}
+              ></NurseryFeeTable>
+            ))}
           </Stack>
         </Stack>
         <Typography
