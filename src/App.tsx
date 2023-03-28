@@ -144,6 +144,10 @@ function App() {
     console.log(latestOutput);
   };
 
+  const scrollToCalcResult = () => {
+    const calcResult = document.getElementById("calcResult");
+    calcResult?.scrollIntoView({ behavior: "smooth" });
+  };
   return (
     <>
       <title>京都市保育料シミュレーター</title>
@@ -224,6 +228,7 @@ function App() {
             onChange={onIndividualInfoChange}
             familyId={Family.MOTHER}
           />
+          <div id="calcResult" />
           <StepTitle>Step4 保育料シミュレーション結果</StepTitle>
           <Stack spacing={2}>
             <LayerTable>{layer}</LayerTable>
@@ -286,7 +291,10 @@ function App() {
               zIndex: "1",
               fontWeight: "bold",
             }}
-            onClick={setResult}
+            onClick={() => {
+              setResult();
+              scrollToCalcResult();
+            }}
           >
             保育料を計算する&nbsp;
             <CalculateIcon />

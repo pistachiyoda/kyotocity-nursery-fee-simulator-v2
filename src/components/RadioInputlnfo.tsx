@@ -17,6 +17,7 @@ export const RadioInputInfo: React.FC<{
       <FormControl>
         <RadioGroup
           row
+          defaultValue={false}
           onChange={(event) => onChange(JSON.parse(event.target.value))}
         >
           <FormControlLabel value={true} control={<Radio />} label="はい" />
