@@ -1,4 +1,13 @@
-import { Button, Fab, List, ListItem, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Container,
+  Fab,
+  List,
+  ListItem,
+  Stack,
+  Typography,
+} from "@mui/material";
 import React, { useState } from "react";
 import "./App.css";
 import { InputIncome } from "./components/InputIncome";
@@ -154,122 +163,147 @@ function App() {
       >
         京都市の保育料シミュレーション
       </Typography>
-      <p>
-        幼保無償化対象外の0~2歳の京都市認可保育施設の保育料を、給与年収（サラリーマンの給料、パート収入など）・代表的な控除を入力することで簡易シミュレーションできます。
-      </p>
-      <Typography
-        variant="h3"
-        sx={{
-          fontSize: "20px",
-          p: 0.5,
-          fontWeight: "bold",
-          width: "80px",
-          textAlign: "center",
-          mb: 0.5,
-        }}
-      >
-        使い方
-      </Typography>
-      <List>
-        <ListItem>Step1. 家庭環境情報を入力</ListItem>
-        <ListItem>Step2. 父の収入を入力</ListItem>
-        <ListItem>Step3. 母の年収を入力</ListItem>
-        <ListItem>Step4. 【保育料を計算する】ボタンをクリック</ListItem>
-      </List>
-      <div className="App">
-        <StepTitle>Step1 家庭環境情報を入力</StepTitle>
-        <RadioInputInfo
-          onChange={onIsWelfareHouseholdChange}
-          subtitle={"生活保護世帯かどうか"}
-        />
-        <RadioInputInfo
-          onChange={onIsSingleParentHouseholdChange}
-          subtitle={"ひとり親世帯かどうか"}
-        />
-        <Stack spacing={2}>
-          <SelectInputInfo
-            onChange={onNumberOfChildrenChange}
-            values={numberOfChildrenRange}
-            subtitle={"こどもの人数は何人か"}
-            currentValue={inputInfo.generalInfo.numberOfChildren}
-          />
-          {Array.from({ length: inputInfo.generalInfo.numberOfChildren }).map(
-            (_, index) => (
-              <InputAge
-                onChange={onAgeOfChildrenChange}
-                key={index}
-                index={index}
-                currentVal={inputInfo.generalInfo.ageOfChildren[index]}
-              ></InputAge>
-            )
-          )}
-        </Stack>
-        <StepTitle>Step2 父の情報を入力</StepTitle>
-        <InputIncome
-          onChange={onIndividualInfoChange}
-          familyId={Family.FATHER}
-        />
-        <StepTitle>Step3 母の情報を入力</StepTitle>
-        <InputIncome
-          onChange={onIndividualInfoChange}
-          familyId={Family.MOTHER}
-        />
-        <StepTitle>Step4 保育料シミュレーション結果</StepTitle>
-        <Stack spacing={2}>
-          <LayerTable>{layer}</LayerTable>
-          <Stack spacing={1}>
-            {Array.from({
-              length: inputInfo.generalInfo.ageOfChildren.filter(
-                (age) => age <= 2
-              ).length,
-            }).map((_, index) => (
-              <NurseryFeeTable
-                key={index}
-                index={index}
-                age={inputInfo.generalInfo.ageOfChildren[index]}
-                a={nurseryFee_a[index]}
-                b={nurseryFee_b[index]}
-                c={nurseryFee_c[index]}
-              ></NurseryFeeTable>
-            ))}
-          </Stack>
-        </Stack>
+      <Container>
+        <p>
+          幼保無償化対象外の0~2歳の京都市認可保育施設の保育料を、給与年収（サラリーマンの給料、パート収入など）・代表的な控除を入力することで簡易シミュレーションできます。
+        </p>
         <Typography
-          variant="body2"
-          sx={{
-            fontSize: "12px",
-            mt: 1,
-          }}
-        >
-          ※保育時間9時間の場合の金額です。
-        </Typography>
-        <Typography
-          variant="body2"
-          sx={{
-            fontSize: "12px",
-            mt: 1,
-          }}
-        >
-          ※この計算結果はあくまで参考情報のため、実際の保育料徴収額は京都市より送付される保育料決定通知書等をご確認ください。
-        </Typography>
-        <Fab
-          variant="extended"
-          color="secondary"
+          variant="h3"
           sx={{
             fontSize: "20px",
-            height: "50px",
-            position: "fixed",
-            bottom: "20px",
-            right: "10px",
-            zIndex: "1",
+            p: 0.5,
             fontWeight: "bold",
+            width: "80px",
+            textAlign: "center",
+            mb: 0.5,
           }}
-          onClick={setResult}
         >
-          保育料を計算する&nbsp;
-          <CalculateIcon />
-        </Fab>
-      </div>
+          使い方
+        </Typography>
+        <List>
+          <ListItem>Step1. 家庭環境情報を入力</ListItem>
+          <ListItem>Step2. 父の収入を入力</ListItem>
+          <ListItem>Step3. 母の年収を入力</ListItem>
+          <ListItem>Step4. 【保育料を計算する】ボタンをクリック</ListItem>
+        </List>
+        <div className="App">
+          <StepTitle>Step1 家庭環境情報を入力</StepTitle>
+          <RadioInputInfo
+            onChange={onIsWelfareHouseholdChange}
+            subtitle={"生活保護世帯かどうか"}
+          />
+          <RadioInputInfo
+            onChange={onIsSingleParentHouseholdChange}
+            subtitle={"ひとり親世帯かどうか"}
+          />
+          <Stack spacing={2}>
+            <SelectInputInfo
+              onChange={onNumberOfChildrenChange}
+              values={numberOfChildrenRange}
+              subtitle={"こどもの人数は何人か"}
+              currentValue={inputInfo.generalInfo.numberOfChildren}
+            />
+            {Array.from({ length: inputInfo.generalInfo.numberOfChildren }).map(
+              (_, index) => (
+                <InputAge
+                  onChange={onAgeOfChildrenChange}
+                  key={index}
+                  index={index}
+                  currentVal={inputInfo.generalInfo.ageOfChildren[index]}
+                ></InputAge>
+              )
+            )}
+          </Stack>
+          <StepTitle>Step2 父の情報を入力</StepTitle>
+          <InputIncome
+            onChange={onIndividualInfoChange}
+            familyId={Family.FATHER}
+          />
+          <StepTitle>Step3 母の情報を入力</StepTitle>
+          <InputIncome
+            onChange={onIndividualInfoChange}
+            familyId={Family.MOTHER}
+          />
+          <StepTitle>Step4 保育料シミュレーション結果</StepTitle>
+          <Stack spacing={2}>
+            <LayerTable>{layer}</LayerTable>
+            <Stack spacing={1}>
+              {Array.from({
+                length: inputInfo.generalInfo.ageOfChildren.filter(
+                  (age) => age <= 2
+                ).length,
+              }).map((_, index) => (
+                <NurseryFeeTable
+                  key={index}
+                  index={index}
+                  age={inputInfo.generalInfo.ageOfChildren[index]}
+                  a={nurseryFee_a[index]}
+                  b={nurseryFee_b[index]}
+                  c={nurseryFee_c[index]}
+                ></NurseryFeeTable>
+              ))}
+            </Stack>
+          </Stack>
+          <Typography
+            variant="body2"
+            sx={{
+              fontSize: "12px",
+              mt: 1,
+            }}
+          >
+            ※保育時間9時間の場合の金額です。
+          </Typography>
+          <Typography
+            variant="body2"
+            sx={{
+              fontSize: "12px",
+              mt: 1,
+            }}
+          >
+            ※この計算結果はあくまで参考情報のため、実際の保育料徴収額は京都市より送付される保育料決定通知書等をご確認ください。
+          </Typography>
+
+          <Box maxWidth={200} margin="auto" mb={3} mt={3}>
+            <img
+              src="/mother_and_child.png"
+              style={{
+                maxWidth: "100%",
+                height: "auto",
+                display: "block",
+              }}
+              alt="mother_and_child"
+            ></img>
+          </Box>
+          <Fab
+            variant="extended"
+            color="secondary"
+            sx={{
+              fontSize: "20px",
+              height: "50px",
+              position: "fixed",
+              bottom: "20px",
+              right: "10px",
+              zIndex: "1",
+              fontWeight: "bold",
+            }}
+            onClick={setResult}
+          >
+            保育料を計算する&nbsp;
+            <CalculateIcon />
+          </Fab>
+        </div>
+      </Container>
+      <Box sx={{ backgroundColor: "#ede1f2", p: 3, textAlign: "center" }}>
+        本アプリは
+        <a href="https://www.city.kyoto.lg.jp/index.html">京都市のサイト情報</a>
+        を参考に作成しています。
+        <br />
+        お気づきの点、ご要望、質問等ありましたら、
+        <a href="https://twitter.com/pistachiyoda">こちら</a>
+        よりDMにてご連絡ください。 <br />
+        <br />
+        @Copyright 2023 pistachiyoda
+      </Box>
     </>
   );
 }

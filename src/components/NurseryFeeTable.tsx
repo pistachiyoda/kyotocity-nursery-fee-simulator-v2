@@ -22,6 +22,7 @@ export const NurseryFeeTable: React.FC<{
         sx={{
           fontSize: "16px",
           textAlign: "left",
+          marginLeft: "10px",
         }}
       >
         {index + 1}人目の子供 （{age}歳）
