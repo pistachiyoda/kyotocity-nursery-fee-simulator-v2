@@ -75,7 +75,6 @@ export class CalculatorModel {
     const result: Output[] = [];
 
     inputInfo.individualInfoInputList.map((input, index) => {
-      console.log("hoge");
       const spouseIncome = this.calcIncome(
         inputInfo.individualInfoInputList[
           index === Family.MOTHER ? Family.FATHER : Family.MOTHER

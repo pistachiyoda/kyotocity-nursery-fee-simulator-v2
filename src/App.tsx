@@ -18,8 +18,8 @@ import { CalculatorModel } from "./models/calculatorModel/calculatorModel";
 import { Family } from "./models/family";
 import { Output } from "./models/outputModel";
 import CalculateIcon from "@mui/icons-material/Calculate";
-import { layerRange } from "./models/layerRange";
-import { layerSpecifierModel } from "./models/layerSpecifierModel";
+import { layerRange } from "./models/layerModel/layerRange";
+import { layerSpecifierModel } from "./models/layerModel/layerSpecifierModel";
 import { InputInfo } from "./models/inputModel/inputInfoModel";
 import { RadioInputInfo } from "./components/RadioInputlnfo";
 import { SelectInputInfo } from "./components/SelectInputInfo";
@@ -57,7 +57,6 @@ function App() {
       isWelfareHousehold: val,
     };
     const newInputInfo = { ...inputInfo, generalInfo };
-    console.log(newInputInfo);
     setInputInfo(newInputInfo);
   };
 
@@ -67,7 +66,6 @@ function App() {
       isSingleParentHousehold: val,
     };
     const newInputInfo = { ...inputInfo, generalInfo };
-    console.log(newInputInfo);
     setInputInfo(newInputInfo);
   };
 
@@ -80,7 +78,6 @@ function App() {
       ageOfChildren: Array(val).fill(0),
     };
     const newInputInfo = { ...inputInfo, generalInfo };
-    console.log(newInputInfo);
     setInputInfo(newInputInfo);
   };
 
@@ -93,7 +90,6 @@ function App() {
       ageOfChildren: ages,
     };
     const newInputInfo = { ...inputInfo, generalInfo };
-    console.log(newInputInfo);
     setInputInfo(newInputInfo);
   };
 
@@ -138,10 +134,7 @@ function App() {
     setNurseryFee_a(a);
     setNurseryFee_b(b);
     setNurseryFee_c(c);
-    console.log(nurseryFee_a);
-    console.log(nurseryFee_b);
-    console.log(nurseryFee_c);
-    console.log(latestOutput);
+    console.log(output);
   };
 
   const scrollToCalcResult = () => {
@@ -169,7 +162,7 @@ function App() {
       </Typography>
       <Container>
         <p>
-          幼保無償化対象外の0~2歳の京都市認可保育施設の保育料を、給与年収（サラリーマンの給料、パート収入など）・代表的な控除を入力することで簡易シミュレーションできます。
+          幼保無償化対象外の0~2歳の京都市認可保育施設の保育料を、給与年収（サラリーマンの給料、パート収入など）を入力することで簡易シミュレーションできます。
         </p>
         <Typography
           variant="h3"
@@ -188,7 +181,7 @@ function App() {
           <ListItem>Step1. 家庭環境情報を入力</ListItem>
           <ListItem>Step2. 父の収入を入力</ListItem>
           <ListItem>Step3. 母の年収を入力</ListItem>
-          <ListItem>Step4. 【保育料を計算する】ボタンをクリック</ListItem>
+          <ListItem>Step4. 右下の【保育料を計算する】ボタンをクリック</ListItem>
         </List>
         <div className="App">
           <StepTitle>Step1 家庭環境情報を入力</StepTitle>
@@ -218,18 +211,33 @@ function App() {
               )
             )}
           </Stack>
-          <StepTitle>Step2 父の情報を入力</StepTitle>
-          <InputIncome
-            onChange={onIndividualInfoChange}
-            familyId={Family.FATHER}
-          />
-          <StepTitle>Step3 母の情報を入力</StepTitle>
-          <InputIncome
-            onChange={onIndividualInfoChange}
-            familyId={Family.MOTHER}
-          />
+          {inputInfo.generalInfo.isSingleParentHousehold ? (
+            <>
+              <StepTitle>Step2 親の情報を入力</StepTitle>
+              <InputIncome
+                onChange={onIndividualInfoChange}
+                familyId={Family.FATHER}
+              />
+            </>
+          ) : (
+            <>
+              <StepTitle>Step2 父の情報を入力</StepTitle>
+              <InputIncome
+                onChange={onIndividualInfoChange}
+                familyId={Family.FATHER}
+              />
+              <StepTitle>Step3 母の情報を入力</StepTitle>
+              <InputIncome
+                onChange={onIndividualInfoChange}
+                familyId={Family.MOTHER}
+              />
+            </>
+          )}
           <div id="calcResult" />
-          <StepTitle>Step4 保育料シミュレーション結果</StepTitle>
+          <StepTitle>
+            Step{inputInfo.generalInfo.isSingleParentHousehold ? 3 : 4}{" "}
+            保育料シミュレーション結果
+          </StepTitle>
           <Stack spacing={2}>
             <LayerTable>{layer}</LayerTable>
             <Stack spacing={1}>

@@ -1,7 +1,7 @@
-import { GeneralInfoInput } from "./inputModel/generalInfoInput";
-import { InputInfo } from "./inputModel/inputInfoModel";
+import { GeneralInfoInput } from "../inputModel/generalInfoInput";
+import { InputInfo } from "../inputModel/inputInfoModel";
 import { layerRange } from "./layerRange";
-import { Output } from "./outputModel";
+
 export class layerSpecifierModel {
   specifyLayer(
     familyCityTax: number,
@@ -183,7 +183,6 @@ export class layerSpecifierModel {
       // 何も軽減がない場合（通常のケース）
       familyNurseryFee.push(this.specifyNurseryFee(layer));
     });
-    console.log(familyNurseryFee);
     return familyNurseryFee;
   }
 }
