@@ -9,21 +9,21 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
-import "./App.css";
-import { InputIncome } from "./components/InputIncome";
-import { LayerTable } from "./components/LayreTable";
-import { NurseryFeeTable } from "./components/NurseryFeeTable";
-import { StepTitle } from "./components/StepTiltle";
-import { CalculatorModel } from "./models/calculatorModel/calculatorModel";
-import { Family } from "./models/family";
-import { Output } from "./models/outputModel";
+import { InputIncome } from "../src/components/InputIncome";
+import { LayerTable } from "../src/components/LayreTable";
+import { NurseryFeeTable } from "../src/components/NurseryFeeTable";
+import { StepTitle } from "../src/components/StepTiltle";
+import { CalculatorModel } from "../src/models/calculatorModel/calculatorModel";
+import { Family } from "../src/models/family";
+import { Output } from "../src/models/outputModel";
 import CalculateIcon from "@mui/icons-material/Calculate";
-import { layerRange } from "./models/layerModel/layerRange";
-import { layerSpecifierModel } from "./models/layerModel/layerSpecifierModel";
-import { InputInfo } from "./models/inputModel/inputInfoModel";
-import { RadioInputInfo } from "./components/RadioInputlnfo";
-import { SelectInputInfo } from "./components/SelectInputInfo";
-import { InputAge } from "./components/InputAge";
+import { layerRange } from "../src/models/layerModel/layerRange";
+import { layerSpecifierModel } from "../src/models/layerModel/layerSpecifierModel";
+import { InputInfo } from "../src/models/inputModel/inputInfoModel";
+import { RadioInputInfo } from "../src/components/RadioInputlnfo";
+import { SelectInputInfo } from "../src/components/SelectInputInfo";
+import { InputAge } from "../src/components/InputAge";
+import Image from "next/image";
 
 function App() {
   const [inputInfo, setInputInfo] = useState<InputInfo>({
@@ -277,7 +277,7 @@ function App() {
           </Typography>
 
           <Box maxWidth={200} margin="auto" mb={3} mt={3}>
-            <img
+            <Image
               src="/mother_and_child.png"
               style={{
                 maxWidth: "100%",
@@ -285,7 +285,7 @@ function App() {
                 display: "block",
               }}
               alt="mother_and_child"
-            ></img>
+            ></Image>
           </Box>
           <Fab
             variant="extended"
