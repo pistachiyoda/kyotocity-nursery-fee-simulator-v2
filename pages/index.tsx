@@ -24,6 +24,7 @@ import { RadioInputInfo } from "../src/components/RadioInputlnfo";
 import { SelectInputInfo } from "../src/components/SelectInputInfo";
 import { InputAge } from "../src/components/InputAge";
 import Image from "next/image";
+import Script from "next/script";
 
 function App() {
   const [inputInfo, setInputInfo] = useState<InputInfo>({
@@ -143,6 +144,22 @@ function App() {
   };
   return (
     <>
+      <Script
+        async
+        src="https://www.googletagmanager.com/gtag/js?id=G-TW6JSZD2M0"
+      />
+      <Script
+        id="gtag"
+        dangerouslySetInnerHTML={{
+          __html: `
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+
+gtag('config', 'G-TW6JSZD2M0');
+`,
+        }}
+      />
       <title>京都市保育料シミュレーター</title>
       <meta
         name="description"
@@ -302,6 +319,11 @@ function App() {
             onClick={() => {
               setResult();
               scrollToCalcResult();
+              gtag("event", "click_calc_button", {
+                event_category: "click_button",
+                event_label: "click_calc_button",
+                value: 1,
+              });
             }}
           >
             保育料を計算する&nbsp;
