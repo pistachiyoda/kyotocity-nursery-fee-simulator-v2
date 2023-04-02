@@ -135,7 +135,6 @@ function App() {
     setNurseryFee_a(a);
     setNurseryFee_b(b);
     setNurseryFee_c(c);
-    console.log(output);
   };
 
   const scrollToCalcResult = () => {
@@ -296,10 +295,11 @@ gtag('config', 'G-TW6JSZD2M0');
           <Box maxWidth={200} margin="auto" mb={3} mt={3}>
             <Image
               src="/mother_and_child.png"
+              width={536}
+              height={653}
               style={{
                 maxWidth: "100%",
                 height: "auto",
-                display: "block",
               }}
               alt="mother_and_child"
             ></Image>
