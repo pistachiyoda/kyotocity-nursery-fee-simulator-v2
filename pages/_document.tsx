@@ -15,6 +15,7 @@ export default class MyDocument extends Document<{
             href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
           />
           {this.props.emotionStyleTags}
+          <meta name="google-site-verification" content="QSSagDQxJDpzwkQ5v43H57EuZc9RwvzqQ9LEqZ99s4I" />
         </Head>
         <body>
           <Main />
