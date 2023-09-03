@@ -36,7 +36,7 @@ function App() {
     individualInfoInputList: [{ employmentIncome: 0 }, { employmentIncome: 0 }],
   });
 
-  const [output, setOutput] = useState<Output[]>([
+  const [, setOutput] = useState<Output[]>([
     {
       income: 0,
       taxableIncome: 0,
