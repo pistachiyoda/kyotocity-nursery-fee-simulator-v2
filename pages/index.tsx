@@ -294,8 +294,8 @@ gtag('config', 'G-TW6JSZD2M0');
           <Box maxWidth={200} margin="auto" mb={3} mt={3}>
             <Image
               src="/mother_and_child.png"
-              width={536}
-              height={653}
+              width={200}
+              height={243}
               style={{
                 maxWidth: "100%",
                 height: "auto",
