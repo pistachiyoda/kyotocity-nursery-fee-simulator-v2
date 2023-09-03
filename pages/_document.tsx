@@ -15,7 +15,14 @@ export default class MyDocument extends Document<{
             href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
           />
           {this.props.emotionStyleTags}
-          <meta name="google-site-verification" content="QSSagDQxJDpzwkQ5v43H57EuZc9RwvzqQ9LEqZ99s4I" />
+          <meta
+            name="google-site-verification"
+            content="QSSagDQxJDpzwkQ5v43H57EuZc9RwvzqQ9LEqZ99s4I"
+          />
+          <meta
+            name="description"
+            content="京都市の保育料を子供の人数、年齢と年収を入力するだけで簡単に計算できるサイトです。"
+          ></meta>
         </Head>
         <body>
           <Main />
