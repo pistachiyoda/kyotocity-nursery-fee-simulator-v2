@@ -112,7 +112,7 @@ export class layerSpecifierModel {
       (age) => age <= 2
     );
 
-    under2Children.forEach((age, index) => {
+    under2Children.forEach((_, index) => {
       // ひとり親の場合
       if (
         familyGeneralInfo.isSingleParentHousehold &&
