@@ -143,7 +143,7 @@ function App() {
   return (
     <>
       <Script
-        async
+        defer
         src="https://www.googletagmanager.com/gtag/js?id=G-TW6JSZD2M0"
       />
       <Script
