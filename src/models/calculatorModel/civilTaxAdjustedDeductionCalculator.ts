@@ -1,5 +1,6 @@
 import { Family } from "../family";
 import { InputInfo } from "../inputModel/inputInfoModel";
+import { Output } from "../outputModel";
 
 // 市民税調整控除額計算モデル
 export class CivilTaxAdjustedDeductionCalculatorModel {

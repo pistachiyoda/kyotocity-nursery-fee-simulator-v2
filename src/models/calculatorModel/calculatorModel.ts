@@ -1,4 +1,5 @@
 import { Family } from "../family";
+import { IndividualInfoInput } from "../inputModel/individualInfoInputModel";
 import { InputInfo } from "../inputModel/inputInfoModel";
 import { Output } from "../outputModel";
 import { CivilTaxAdjustedDeductionCalculatorModel } from "./civilTaxAdjustedDeductionCalculator";
