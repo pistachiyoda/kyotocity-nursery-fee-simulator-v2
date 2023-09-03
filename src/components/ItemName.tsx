@@ -6,7 +6,7 @@ export const ItemName: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   return (
     <Typography
-      variant="h4"
+      variant="h3"
       sx={{
         padding: "10px 10px 10px 20px",
         margin: "15px 0px",

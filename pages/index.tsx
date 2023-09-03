@@ -181,7 +181,7 @@ gtag('config', 'G-TW6JSZD2M0');
           幼保無償化対象外の0~2歳の京都市認可保育施設の保育料を、給与年収（サラリーマンの給料、パート収入など）を入力することで簡易シミュレーションできます。
         </p>
         <Typography
-          variant="h3"
+          variant="h2"
           sx={{
             fontSize: "20px",
             p: 0.5,

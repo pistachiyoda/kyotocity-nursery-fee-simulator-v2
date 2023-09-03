@@ -18,7 +18,7 @@ export const NurseryFeeTable: React.FC<{
   return (
     <>
       <Typography
-        variant="h4"
+        variant="h3"
         sx={{
           fontSize: "16px",
           textAlign: "left",
